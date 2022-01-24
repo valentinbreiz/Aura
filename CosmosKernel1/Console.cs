@@ -1,10 +1,9 @@
 using Cosmos.System;
-using nifanfa.CosmosDrawString;
 using System.Drawing;
 
 namespace CosmosKernel1
 {
-    class Console : App
+    public class Console : App
     {
         int textEachLine;
         public string text = string.Empty;
@@ -40,41 +39,9 @@ namespace CosmosKernel1
                 }
             }
 
-            Kernel.vMWareSVGAII.DoubleBuffer_DrawFillRectangle(x, y, width, height, (uint)Color.Black.ToArgb());
+            Kernel.canvas.DrawFilledRectangle(Kernel.BlackPen, (int)x, (int)y, (int)width, (int)height);
 
-            if (text.Length != 0)
-            {
-                _text = string.Empty;
-                int i = 0;
-                int l = 0;
-                foreach (char c in text)
-                {
-                    if (this.height / ASC16.fontSize.Height - 1 < l)
-                    {
-                        break;
-                    }
-
-                    _text += c;
-                    i++;
-                    if (i + 1 == textEachLine || c == '\n')
-                    {
-                        if (c != '\n')
-                        {
-                            _text += "\n";
-                        }
-                        i = 0;
-                        l++;
-                    }
-                }
-            }
-            if (this.Lines == 1)
-            {
-                Kernel.vMWareSVGAII._DrawACSIIString(text + "_", (uint)Color.White.ToArgb(), x, y);
-            }
-            else
-            {
-                Kernel.vMWareSVGAII._DrawACSIIString(_text + "_", (uint)Color.White.ToArgb(), x, y);
-            }
+            Kernel.canvas.DrawString(text + "_", Kernel.font, Kernel.WhitePen, (int)x, (int)y);
         }
     }
 }

@@ -1,5 +1,4 @@
 using Cosmos.System;
-using nifanfa.CosmosDrawString;
 using System.Drawing;
 
 namespace CosmosKernel1
@@ -29,7 +28,7 @@ namespace CosmosKernel1
         bool pressed;
         public bool visible = false;
 
-        const int MoveBarHeight = 22;
+        const int MoveBarHeight = 20;
 
         public int _i = 0;
 
@@ -55,7 +54,7 @@ namespace CosmosKernel1
 
             if (MouseManager.X > dockX && MouseManager.X < dockX + dockWidth && MouseManager.Y > dockY && MouseManager.Y < dockY + dockHeight)
             {
-                Kernel.vMWareSVGAII._DrawACSIIString(name, (uint)Color.White.ToArgb(), (uint)(dockX - ((name.Length * 8) / 2) + dockWidth / 2), dockY - 20);
+                Kernel.canvas.DrawString(name, Kernel.font, Kernel.WhitePen, (int)(dockX - ((name.Length * 8) / 2) + dockWidth / 2), (int)(dockY - 20));
             }
 
             if (MouseManager.MouseState == MouseState.Left && _i == 0)
@@ -98,16 +97,11 @@ namespace CosmosKernel1
                 this.y = (uint)(MouseManager.Y - py + MoveBarHeight);
             }
 
-            /*
-            Kernel.vMWareSVGAII.DoubleBuffer_DrawFillRectangle(_x, _y, _width, _height, (uint)Color.FromArgb(200, 200, 200).ToArgb());
-            Kernel.vMWareSVGAII.DoubleBuffer_DrawFillRectangle(_x + 1, _y + 1, _width - 2, 20, (uint)Color.FromArgb(0, 0, 135).ToArgb());
-            */
-            Kernel.vMWareSVGAII.DoubleBuffer_DrawFillRectangle(baseX, baseY, baseWidth, baseHeight, (uint)Color.White.ToArgb());
-            Kernel.vMWareSVGAII.DoubleBuffer_DrawRectangle((uint)Kernel.avgCol.ToArgb(), (int)baseX, (int)baseY, (int)baseWidth, (int)baseHeight);
+            Kernel.canvas.DrawFilledRectangle(Kernel.WhitePen, (int)baseX, (int)baseY, (int)baseWidth, (int)baseHeight);
+            Kernel.canvas.DrawRectangle(Kernel.avgColPen, (int)baseX, (int)baseY, (int)baseWidth, (int)baseHeight);
 
-            Kernel.vMWareSVGAII._DrawACSIIString(name, (uint)Color.Black.ToArgb(), baseX + 2, baseY + 2);
-            //Kernel.vMWareSVGAII.DoubleBuffer_DrawFillRectangle(_x + 22, _y, 1, 22, (uint)Color.FromArgb(200, 200, 200).ToArgb());
-            //Kernel.vMWareSVGAII.DoubleBuffer_DrawFillRectangle(x, y, 20, 20, (uint)Color.Gray.ToArgb());
+            Kernel.canvas.DrawString(name, Kernel.font, Kernel.BlackPen, (int)(baseX + 2), (int)(baseY + 2));
+
             _Update();
 
         end:;
